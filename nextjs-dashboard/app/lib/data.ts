@@ -1,4 +1,4 @@
-import { sql } from '@vercel/postgres';
+import { sql } from '@vercel/postgres'; // Allows us to query the database
 import {
   CustomerField,
   CustomersTableType,
@@ -10,11 +10,12 @@ import {
 import { formatCurrency } from './utils';
 
 export async function fetchRevenue() {
+  console.log("Inside Fetch revenue")
   try {
     // Artificially delay a response for demo purposes.
     // Don't do this in production :)
 
-    // console.log('Fetching revenue data...');
+    console.log('Fetching revenue data...');
     // await new Promise((resolve) => setTimeout(resolve, 3000));
 
     const data = await sql<Revenue>`SELECT * FROM revenue`;
@@ -60,7 +61,7 @@ export async function fetchCardData() {
          SUM(CASE WHEN status = 'pending' THEN amount ELSE 0 END) AS "pending"
          FROM invoices`;
 
-    const data = await Promise.all([
+    const data = await Promise.all([ //`Promise.all` function initiates all promises at the same time. [Parallel data fetching]
       invoiceCountPromise,
       customerCountPromise,
       invoiceStatusPromise,
